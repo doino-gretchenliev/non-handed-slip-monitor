@@ -1,0 +1,26 @@
+name: non-handed-slip-monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: ignore timestamp and force update
+        required: false
+        default: ''
+  schedule:
+    - cron:  '40 * * * *'
+      
+
+jobs:
+  track:
+    name: Checks for non handed slip
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for non handed slip
+        run: |
+            curl -s -G 'https://e-uslugi.mvr.bg/api/Obligations/AND' \
+            -d mode=1 \
+            -d obligedPersonIdent=${{ secrets.OBLIGED_PERSON_IDENT }} \
+            -d drivingLicenceNumber=${{ secrets.DRIVING_LICENCE_NUMBER }} \
+             | jq -e 'select(.hasNonHandedSlip == false) | any'
