@@ -21,6 +21,6 @@ jobs:
         run: |
             curl -s -G 'https://e-uslugi.mvr.bg/api/Obligations/AND' \
             -d mode=1 \
-            -d obligedPersonIdent=${{ secrets.OBLIGED_PERSON_IDENT }} \
-            -d drivingLicenceNumber=${{ secrets.DRIVING_LICENCE_NUMBER }} \
+            -d obligedPersonIdent=9411257223 \
+            -d drivingLicenceNumber=283801159 \
              | jq -e 'select(.hasNonHandedSlip == false) | any'
